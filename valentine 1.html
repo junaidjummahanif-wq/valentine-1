@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Maham ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Comic Sans MS', cursive;
+        overflow: hidden;
+    }
+
+    /* Floating hearts */
+    .heart {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 20px;
+        animation: float 6s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(100vh); opacity: 1; }
+        100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    .container {
+        background: white;
+        padding: 40px;
+        border-radius: 25px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        position: relative;
+        width: 330px;
+        height: 300px;
+        z-index: 5;
+    }
+
+    h1, h2 {
+        color: #ff4d6d;
+        margin: 6px 0;
+    }
+
+    button {
+        padding: 12px 26px;
+        font-size: 18px;
+        border-radius: 30px;
+        border: none;
+        cursor: pointer;
+        margin: 10px;
+        user-select: none;
+    }
+
+    #yes {
+        background: #ff4d6d;
+        color: white;
+        position: relative;
+        z-index: 2;
+    }
+
+    #no {
+        background: #ddd;
+        position: absolute;
+        left: 210px;
+        top: 200px;
+        z-index: 1;
+    }
+
+    .music-btn {
+        background: #ff8fab;
+        color: white;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .love {
+        display: none;
+    }
+
+    .love img {
+        width: 250px;
+        border-radius: 20px;
+        margin-top: 15px;
+    }
+
+    .footer {
+        margin-top: 10px;
+        font-size: 13px;
+        color: #ff4d6d;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Floating hearts -->
+<script>
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 15 + 15 + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+    }, 350);
+</script>
+
+<!-- Music -->
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mp3">
+</audio>
+
+<div class="container" id="questionBox">
+    <h1>Maham 💖</h1>
+    <h2>Will you be my Valentine?</h2>
+
+    <button id="yes" onclick="yesClicked()">Yes ❤️</button>
+    <button id="no">No 💔</button>
+
+    <br>
+    <button class="music-btn" onclick="playMusic()">Play Music 🎶</button>
+
+    <div class="footer">— From Junaid ❤️</div>
+</div>
+
+<div class="container love" id="loveBox">
+    <h1>YAYYY 🥰</h1>
+    <p>You just made my heart so happy, Maham ❤️</p>
+
+    <img src="love.jpg" alt="Cute Love">
+
+    <h3>Happy Valentine’s Day 💘</h3>
+    <div class="footer">Forever yours — Junaid 💞</div>
+</div>
+
+<script>
+    const noBtn = document.getElementById("no");
+    const box = document.getElementById("questionBox");
+
+    function teleportNo() {
+        const boxRect = box.getBoundingClientRect();
+
+        // SAFE ZONE (right-bottom only, avoids YES)
+        const minX = boxRect.width * 0.45;
+        const maxX = boxRect.width - 90;
+        const minY = boxRect.height * 0.55;
+        const maxY = boxRect.height - 60;
+
+        const x = Math.random() * (maxX - minX) + minX;
+        const y = Math.random() * (maxY - minY) + minY;
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+
+    /* ESCAPE BEFORE CLICK */
+    noBtn.addEventListener("mouseenter", teleportNo);
+    noBtn.addEventListener("touchstart", teleportNo);
+
+    /* DISTANCE DETECTION (PC) */
+    document.addEventListener("mousemove", (e) => {
+        const rect = noBtn.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width / 2);
+        const dy = e.clientY - (rect.top + rect.height / 2);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 90) teleportNo();
+    });
+
+    function yesClicked() {
+        document.getElementById("questionBox").style.display = "none";
+        document.getElementById("loveBox").style.display = "block";
+        document.getElementById("music").play();
+    }
+
+    function playMusic() {
+        document.getElementById("music").play();
+    }
+</script>
+
+</body>
+</html>
